@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class products extends Model
 {
     use HasFactory;
-    protected $products = "product_tikis";
+    protected $products = "products";
     function type_products() {
-        return $this->hasMany(type_products::class);
+        return $this->belongsTo(type_products::class);
     }
 
 

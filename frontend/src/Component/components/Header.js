@@ -1,15 +1,24 @@
-import { CircularProgress } from "@chakra-ui/progress";
-import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    Portal
+} from "@chakra-ui/react";
 
 function Header() {
+    const [User, setUser] = useState([]);
     const navigate = useNavigate();
     const Logout = () => {
         localStorage.removeItem('userLogin');
         return navigate('/');
     }
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('userLogin')))
+    }, []);
     return (
         <>
             <div className="">
@@ -22,16 +31,19 @@ function Header() {
                     <h1 className="mx-5"></h1>
                     <h1 className="mx-5"></h1>
                     <h1 className="mx-5"></h1>
-                    <h3
-                        onClick={Logout}
-                        style={{ cursor: 'pointer' }}
-                        className="fw-bold text-primary"
-                        data-bs-toggle="tooltip"
-                        title="Click to logout"
-                    >
-                        Logout
-                    </h3>
-                    cart
+                    <Menu>
+                        <MenuButton
+                            style={{ cursor: 'pointer' }}
+                            className="fw-bold text-primary"
+                            data-bs-toggle="tooltip"
+                            title="Click to logout"
+                        >{User.name}</MenuButton>
+                        <Portal>
+                            <MenuList>
+                                <MenuItem onClick={Logout}>Login</MenuItem>
+                            </MenuList>
+                        </Portal>
+                    </Menu>
                 </div>
             </div>
         </>

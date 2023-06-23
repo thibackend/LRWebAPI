@@ -9,6 +9,7 @@ import Notfound from "../components/NotFound";
 import AdminAuth from "../components/AdminPage";
 import Addproduct from "../components/AdminPage/Addproduct";
 import Edit from "../components/AdminPage/Edit";
+import ShoppingCart from "../components/home/Cart";
 
 export const routes = () => [
   {
@@ -26,6 +27,9 @@ export const routes = () => [
     children: [
       {
         path: '', element: <Showproduct />
+      },
+      {
+        path: 'cart', element: <ShoppingCart />
       }
     ]
   },

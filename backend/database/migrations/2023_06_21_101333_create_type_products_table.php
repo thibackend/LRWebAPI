@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('type_products', function (Blueprint $table) {
             $table->id();
-            $table->sting("name");
-            $table->longText("description");
-            $table->string("image");
+            $table->string("name");
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

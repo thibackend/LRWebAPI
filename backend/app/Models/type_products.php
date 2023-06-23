@@ -14,14 +14,4 @@ class type_products extends Model
     {
         return $this->hasMany(products::class);
     }
-    protected $fillable = [
-        "id",
-        "name",
-        "id_type",
-        "description",
-        "unit_price",
-        "promotion_price",
-        "image",
-        "unit"
-    ];
 }

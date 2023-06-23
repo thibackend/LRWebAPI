@@ -5,16 +5,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 function Edit() {
     const { id } = useParams();
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        img: '', name: '', price: 0, star: 0, desc: '', qty: 0, type_product_id: 0
+    });
     let navigate = useNavigate();
-
-    const [img, setImg] = useState('');
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState(0);
-    const [star, setStar] = useState(0);
-    const [desc, setDesc] = useState('');
-    const [qty, setQty] = useState(0);
-    const [dataupdate, setDataupdate] = useState([]);
     const getData = async () => {
         try {
             const response = await axios.get(`http://localhost:8000/api/products/${id}`);
@@ -23,27 +17,37 @@ function Edit() {
             console.log(err);
         }
     };
-
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData((prevProduct) => ({
+            ...prevProduct,
+            [name]: value,
+        }));
+    };
     useEffect(() => {
-        if (!data) {
+        if (!data.price) {
             getData();
         }
-        setDataupdate({
-            img, name, price, star, desc, qty
-        })
-
-    }, [img, name, price, star, desc, qty]);
-
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const update = async () => {
-            console.log("data update:", dataupdate);
-            console.log("data old:", data);
+            console.log('data update :', data);
+            try {
+                await axios.post(`http://localhost:8000/api/products/${id}`, data)
+                    .then(res => {
+                        if (res.data.price) {
+                            console.log("data response:",res.data);
+                            navigate('/admin');
+                        }
+                    })
+            } catch (error) {
+                console.log(error);
+            }
         };
         update();
     };
-
     return (
         <>
             <div className="w-50 justify-content-center mx-5">
@@ -57,8 +61,10 @@ function Edit() {
                             <input
                                 className="form-control"
                                 type="text"
+                                id="img"
+                                name="img"
                                 value={data.img}
-                                onChange={(e) => setImg(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                         <div style={{ width: '100%' }}>
@@ -69,7 +75,8 @@ function Edit() {
                                 id="name"
                                 name="name"
                                 value={data.name}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={handleChange}
+
                             />
                         </div>
 
@@ -78,11 +85,11 @@ function Edit() {
                             <input
                                 className="form-control"
                                 type="number"
-                                step="0.01"
                                 id="price"
                                 name="price"
                                 value={data.price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                onChange={handleChange}
+
                             />
                         </div>
                         <div>
@@ -93,7 +100,8 @@ function Edit() {
                                 id="star"
                                 name="star"
                                 value={data.star}
-                                onChange={(e) => setStar(e.target.value)}
+                                onChange={handleChange}
+
                             />
                         </div>
 
@@ -102,8 +110,10 @@ function Edit() {
                             <textarea
                                 className="form-control"
                                 type="text"
+                                name="desc"
                                 value={data.desc}
-                                onChange={(e) => setDesc(e.target.value)}
+                                onChange={handleChange}
+
                             />
                         </div>
 
@@ -112,8 +122,10 @@ function Edit() {
                             <input
                                 className="form-control"
                                 type="number"
+                                name="qty"
                                 value={data.qty}
-                                onChange={(e) => setQty(e.target.value)}
+                                onChange={handleChange}
+
                             />
                         </div>
 

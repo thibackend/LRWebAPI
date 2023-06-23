@@ -21,6 +21,16 @@ const LoginPage = () => {
                     <h2 className="text-center mb-4">Login</h2>
                     <form onSubmit={handleSubmit(handleSubmits)}>
                         <div className="form-group">
+                            <label htmlFor="username">user Name</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="username"
+                                {...register('name', { required: true })}
+                            />
+                            {errors.name && <span className='text-danger' >This field is required</span>}
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input
                                 type="text"
