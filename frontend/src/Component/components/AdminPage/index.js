@@ -5,6 +5,8 @@ function AdminAuth() {
     let userLogin = JSON.parse(localStorage.getItem('userLogin')) || undefined;
     if (!userLogin) {
         return <Navigate to="/auth" />
+    } if (userLogin.email != 'admin') {
+        return <Navigate to="/" />
     }
     return (
         <>

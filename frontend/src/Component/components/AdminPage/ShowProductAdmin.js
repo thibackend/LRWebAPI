@@ -35,15 +35,16 @@ function Admin() {
     return (
         <>
             <Addproduct />
-            <table className="table table-striped my-3 mx-3">
+            <table className="table table-striped my-3 mx-2">
                 <thead>
                     <tr>
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Star</th>
                         <th>Price</th>
-                        <th>Sale Number</th>
-                        <th>Promote</th>
+                        <th>qty</th>
+                        <th>star</th>
+                        <th>Description</th>
+                        <th>status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -54,16 +55,16 @@ function Admin() {
                                 <tr key={item.id}>
                                     <td><img src={item.img} alt='anh tuong trung' style={{ width: "100px", height: "100px" }} /></td>
                                     <td>{item.name}</td>
-                                    <td>{item.unit_price}</td>
-                                    <td>{item.unit}</td>
-                                    <td>{item.sale_number}</td>
-                                    <td>{item.promotion_price}</td>
-                                    <td>
+                                    <td>{item.price}</td>
+                                    <td>{item.qty}</td>
+                                    <td>{item.star}</td>
+                                    <td>{item.desc}</td>
+                                    <td>{item.status}</td>
+                                    <td className="d-flex">
                                         <button className="btn btn-danger py-2 px-2 mx-4" onClick={() => handleDelete(item.id)}>
                                             Delete
                                         </button>
-                                        <Link className="btn btn-primary"  to={`edit/${item.id}`}>Edit</Link>
-                                    
+                                        <Link className="btn btn-primary py-2 px-2 mx-4"  to={`edit/${item.id}`}>Edit</Link>
                                     </td>
                                 </tr>
                             )
