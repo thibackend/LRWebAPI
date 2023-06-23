@@ -5,7 +5,10 @@ import { Link, Outlet, Route, Routes } from "react-router-dom"
 import Addproduct from "./AdminPage/Addproduct";
 export default function Showproduct() {
     const [data, setData] = useState([]);
-    
+    const handleBuy = (id) => {
+        alert("Thank you " + id)
+    }
+
     const fetch = async () => {
         try {
             await axios.get("http://localhost:8000/api/products")
@@ -31,7 +34,7 @@ export default function Showproduct() {
                                     <p className="card-text">qty{e.qty} $</p>
                                     <p className="card-text">star{e.star} $</p>
                                     <p className="card-text">{e.description}</p>
-                                    <a className="btn btn-primary">Buy</a>
+                                    <button className="btn btn-success mx-2" onClick={() => handleBuy(e.id)}>Buy</button>
                                     <a className="btn btn-primary">Add cart</a>
                                 </div>
                             </div>

@@ -1,26 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Select } from "@chakra-ui/select"
+
 
 const Addproduct = () => {
-  const [name, setname] = useState();
-  const [img, setimg] = useState();
-  const [star, setstar] = useState();
-  const [price, setprice] = useState();
-  const [sale_number, setsale_numer] = useState();
-  const [promote, setpromote] = useState();
+  const navigate = useNavigate();
+  const [type, setType] = useState([])
+  const [data, setData] = useState(
+    {
+      img: '',
+      name: '',
+      star: 0,
+      price: 0,
+      qty: 0,
+      desc: '',
+      status: 1,
+      desc: '',
+      type_product_id: 0
+    }
+  );
+  const GettypeProduct = async () => {
+    try {
+      await axios.get('http://localhost:8000/api/type_products').then(e => { setType(e.data); })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    GettypeProduct();
+  }, []);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setData((data) => ({
+      ...data,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8000/api/products', {
-      name,
-      img,
-      star,
-      price,
-      sale_number,
-      promote
-    })
-      .then(res => { console.log(alert(res.data.message)); })
-      .catch(err => { console.log(err); })
+    console.log("data push :", data);
+    const postData = async () => {
+      await axios.post('http://localhost:8000/api/products', data)
+        .then(res => { alert("Add successful !"); navigate('/admin'); });
+
+    }
+    postData();
   }
   return (
     <>
@@ -45,8 +71,9 @@ const Addproduct = () => {
                     className="form-control"
                     placeholder="enter the link image"
                     type="text"
+                    id="img"
                     name="img"
-                    onChange={(e) => { setimg(e.target.value) }}
+                    onChange={handleChange}
                   />
                 </label>
                 <br />
@@ -57,8 +84,9 @@ const Addproduct = () => {
                     className="form-control"
                     placeholder="enter the product name"
                     type="text"
+                    id="name"
                     name="name"
-                    onChange={(e) => { setname(e.target.value) }}
+                    onChange={handleChange}
                   />
                 </label>
                 <br />
@@ -69,8 +97,10 @@ const Addproduct = () => {
                     className="form-control"
                     placeholder="enter the star number"
                     type="number"
+                    id="star"
                     name="star"
-                    onChange={(e) => { setstar(e.target.value) }}
+                    onChange={handleChange}
+
                   />
                 </label>
                 <br />
@@ -81,40 +111,75 @@ const Addproduct = () => {
                     className="form-control"
                     placeholder="enter the price"
                     type="number"
+                    id="price"
                     name="price"
-                    onChange={(e) => { setprice(e.target.value) }}
+                    onChange={handleChange}
                   />
                 </label>
                 <br />
                 <label style={{ width: '100%' }}>
-                  Sale Number:
+                  quantity:
                   <input
                     style={{ width: '100%' }}
                     className="form-control"
-                    placeholder="enter the sale number"
+                    placeholder="enter the quantity"
                     type="number"
-                    name="sale_number"
-                    onChange={(e) => { setsale_numer(e.target.value) }}
+                    id="qty"
+                    name="qty"
+                    onChange={handleChange}
+                  />
+                </label>
+                <br/>
+                <label style={{ width: '100%' }}>
+                  Status:
+                  <input
+                    style={{ width: '100%' }}
+                    className="form-control"
+                    placeholder="Enter status"
+                    type="number"
+                    name="status"
+                    id="status"
+                    onChange={handleChange}
+                  />
+                </label>
+                <label style={{ width: '100%' }}>
+                  Description:
+                  <input
+                    style={{ width: '100%' }}
+                    className="form-control"
+                    placeholder="Enter status"
+                    type="text"
+                    name="desc"
+                    id="desc"
+                    onChange={handleChange}
                   />
                 </label>
                 <br />
                 <label style={{ width: '100%' }}>
-                  Promote:
-                  <input
-                    style={{ width: '100%' }}
-                    className="form-control"
-                    placeholder="enter the total promote"
+                  type_product_id:
+                  <br />
+                  <Select
+                    placeholder={type ? "Choose type product" : "loading ..."}
                     type="number"
-                    name="promote"
-                    onChange={(e) => { setpromote(e.target.value) }}
-                  />
+                    className="form-control my-3"
+                    id="type_product_id"
+                    name="type_product_id"
+                    onChange={handleChange}
+                  >
+                    {type ? type.map(
+                      e => (
+                        <option key={e.id} value={e.id}>{e.name}</option>
+                      )
+                    ) : ""}
+                  </Select>
                 </label>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" className="btn btn-primary" onClick={handleSubmit} >ADD</button>
+                </div>
               </form>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleSubmit} >ADD</button>
-            </div>
+
           </div>
         </div>
       </div>

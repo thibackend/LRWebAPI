@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\TypeProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,19 @@ Route::controller(ProductController::class)
         Route::get('products',"index");
         Route::get('products/{id}',"show");
         Route::post('products/{id}',"update");
+        Route::post('products',"store");
         Route::delete('products/{id}',"destroy");
+        
+    }
+);
+Route::controller(TypeProductController::class)
+->group(
+    function () {
+        Route::get('type_products',"index");
+        Route::get('type_products/{id}',"show");
+        Route::post('type_products/{id}',"update");
+        Route::post('type_products',"store");
+        Route::delete('type_products/{id}',"destroy");
         
     }
 );

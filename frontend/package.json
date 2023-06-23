@@ -6,6 +6,7 @@
     "@chakra-ui/menu": "^2.1.15",
     "@chakra-ui/progress": "^2.1.6",
     "@chakra-ui/react": "^2.7.1",
+    "@chakra-ui/select": "^2.0.19",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",

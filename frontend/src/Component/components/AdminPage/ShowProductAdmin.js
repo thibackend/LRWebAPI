@@ -5,7 +5,6 @@ import Addproduct from "./Addproduct";
 
 function Admin() {
     const [data, setData] = useState([]);
-    const [status, setStatus] = useState(true);
     let navigate = useNavigate();
     const getData = async () => {
         try {
@@ -18,22 +17,20 @@ function Admin() {
             console.log(err);
         }
     };
-    const handleDeleteProduct = async (productId) => {
+    const handleDeleteProduct = async (id) => {
         // Hiển thị cảnh báo xác nhận xóa
         const confirmDelete = window.confirm("Delete this product?");
         if (confirmDelete) {
             try {
-                await axios.delete(`http://127.0.0.1:8000/api/products/${productId}`);
+                await axios.delete(`http://127.0.0.1:8000/api/products/${id}`);
                 // Xóa sản phẩm khỏi danh sách
-                const updatedProducts = data.filter((product) => product.id !== productId);
+                const updatedProducts = data.filter((product) => product.id !== id);
                 setData(updatedProducts);
-                setStatus(false);
             } catch (error) {
                 console.error('Error deleting product:', error);
             }
         }
     };
-
     useEffect(() => {
         getData();
     }, []);
@@ -66,10 +63,11 @@ function Admin() {
                                     <td>{item.desc}</td>
                                     <td>{item.status}</td>
                                     <td className="d-flex">
-                                        <Link 
-                                        className="btn btn-primary py-2 px-2 mx-4">
-                                        Delete
-                                        </Link>
+                                        <button
+                                            onClick={() => handleDeleteProduct(item.id)}
+                                            className="btn btn-danger py-2 px-2 mx-4">
+                                            Delete
+                                        </button>
                                         <Link className="btn btn-primary py-2 px-2 mx-4" to={`edit/${item.id}`}>Edit</Link>
                                     </td>
                                 </tr>
